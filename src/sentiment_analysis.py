@@ -13,10 +13,10 @@ stemmer = SnowballStemmer('english')
 def feature_engineering(data):
     # feature engineering
     # let's make a new column review sentiment
-    data.loc[(data['rating'] >= 7), 'Review_Sentiment'] = 2
-    data.loc[(data['rating'] == 5), 'Review_Sentiment'] = 1
-    data.loc[(data['rating'] == 6), 'Review_Sentiment'] = 1
-    data.loc[(data['rating'] < 5), 'Review_Sentiment'] = 0
+    data.loc[(data['RATING'] >= 7), 'Review_Sentiment'] = 2
+    data.loc[(data['RATING'] == 5), 'Review_Sentiment'] = 1
+    data.loc[(data['RATING'] == 6), 'Review_Sentiment'] = 1
+    data.loc[(data['RATING'] < 5), 'Review_Sentiment'] = 0
     data['Review_Sentiment'].value_counts()
     print("Created new column sentiment using feature engineering")
     return data
@@ -46,13 +46,13 @@ def remove_stop_words(stops):
 
 def cleanup_medical_condition(df_condition, data):
     # setting a df with conditions with less than 5 drugs
-    df_condition_1 = df_condition[df_condition['drugName'] < 5].reset_index()
+    df_condition_1 = df_condition[df_condition['DRUGNAME'] < 5].reset_index()
     all_list = set(data.index)
 
     # deleting them
     condition_list = []
-    for i, j in enumerate(data['condition']):
-        for c in list(df_condition_1['condition']):
+    for i, j in enumerate(data['CONDITION']):
+        for c in list(df_condition_1['CONDITION']):
             if j == c:
                 condition_list.append(i)
 
@@ -66,7 +66,7 @@ def cleanup_medical_condition(df_condition, data):
 def remove_condition_with_span(data):
     all_list = set(data.index)
     span_list = []
-    for i, j in enumerate(data['condition']):
+    for i, j in enumerate(data['CONDITION']):
         if '</span>' in j:
             span_list.append(i)
     new_idx = all_list.difference(set(span_list))
@@ -78,12 +78,15 @@ def remove_condition_with_span(data):
 
 def write_preprocessed_data_to_table(data):
     table_name = 'prepared_data'
-    conn = create_session()
-    data.to_sql(
-        name=table_name.lower(),
-        con=conn,
-        if_exists="replace"
-    )
+    session = create_session()
+    # data.to_sql(
+    #     name=table_name.lower(),
+    #     con=conn,
+    #     if_exists="replace"
+    # )
+    # print("Loaded the table")
+    snow_df = session.create_dataframe(data)
+    snow_df.write.mode("overwrite").save_as_table(table_name)
     print("Loaded the table")
 
 
@@ -147,7 +150,7 @@ def main():
     data = feature_engineering(data)
     data = remove_null(data)
     stops = remove_stop_words(stops)
-    df_condition = data.groupby(['condition'])['drugName'].nunique().sort_values(ascending=False)
+    df_condition = data.groupby(['CONDITION'])['DRUGNAME'].nunique().sort_values(ascending=False)
     df_condition = pd.DataFrame(df_condition).reset_index()
     data = cleanup_medical_condition(df_condition, data)
     data = remove_condition_with_span(data)
