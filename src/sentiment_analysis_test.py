@@ -139,7 +139,7 @@ def review_to_words(raw_review):
 
 
 data['review_clean'] = data['review'].apply(review_to_words)
-
+print("Done with revie clean")
 
 # Analysing Emotions
 # Make data directory if it doesn't exist
@@ -160,7 +160,7 @@ emolex_df[emolex_df.association == 1].emotion.value_counts()
 
 emolex_words = emolex_df.pivot(index='word', columns='emotion', values='association').reset_index()
 emolex_words.head()
-
+print(emolex_words.head())
 
 def extract_review_emotion(df, column):
     new_df = df.copy()
@@ -186,6 +186,7 @@ def extract_review_emotion(df, column):
 emotion_df = extract_review_emotion(data, 'review_clean')
 emo = emotion_df.groupby(['drugName']).sum()
 emo.head(10)
+print(emo.heaad(10))
 
 emo.to_csv('emotion_groupby11.csv', index=True)
 emotion_df.to_csv('emotion_sentiment.csv', index=False)

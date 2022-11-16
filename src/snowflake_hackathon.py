@@ -4,9 +4,10 @@ import snowflake.connector
 
 def snowflake_login():
     conn = snowflake.connector.connect(
-        user='ARUNAZ',
+        user='KQKK509',
         password='A_b@150695',
-        account='GITYONJ-FZ10313',
+        account='ASTRAZENECA-GITC_HACKATHON',
+        role='ACCOUNTADMIN'
         # warehouse=WAREHOUSE,
         # database=DATABASE,
         # schema=SCHEMA
@@ -19,10 +20,10 @@ def db_creation(conn):
     """Create warehouse, database and schema if not available already"""
     cursor = conn.cursor()
     try:
-        cursor.execute("CREATE WAREHOUSE IF NOT EXISTS uc_ml_drugreview")
-        cursor.execute("CREATE DATABASE IF NOT EXISTS drugreview_dataset")
-        cursor.execute("USE DATABASE drugreview_dataset")
-        cursor.execute("CREATE SCHEMA IF NOT EXISTS drugreview")
+        cursor.execute("CREATE WAREHOUSE IF NOT EXISTS TEAM_FLAKERS")
+        cursor.execute("CREATE DATABASE IF NOT EXISTS FLAKERS")
+        cursor.execute("USE DATABASE FLAKERS")
+        cursor.execute("CREATE SCHEMA IF NOT EXISTS DATA_RAW")
         print("Warehouse/Database created Successfully")
     finally:
         cursor.close()
