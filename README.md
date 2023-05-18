@@ -27,10 +27,10 @@ To test if the download worked correctrly, type snowsql -v
 Below are the steps to login to snowsql terminal and execute the commands
 
 ```bash
-LOGIN 						--> snowsql -a <account_name> -o log_level=DEBUG -u <username> # When prompt for password type <password>
-CREATE DATABASE 			--> create or replace database sf_tuts;
-SELECT DATABASE				--> select current_database(), current_schema();
-CREATE TABLE				--> create or replace table emp_basic (
+LOGIN 						          --> snowsql -a <account_name> -o log_level=DEBUG -u <username> # When prompt for password type <password>
+CREATE DATABASE 			      --> create or replace database sf_tuts;
+SELECT DATABASE				      --> select current_database(), current_schema();
+CREATE TABLE				        --> create or replace table emp_basic (
                                        first_name string ,
                                        last_name string ,
                                        email string ,
@@ -38,15 +38,15 @@ CREATE TABLE				--> create or replace table emp_basic (
                                        city string ,
                                        start_date date
                                        );
-CREATE WAREHOUSE			--> create or replace warehouse sf_tuts_wh with
+CREATE WAREHOUSE			      --> create or replace warehouse sf_tuts_wh with
                                        warehouse_size='X-SMALL'
                                        auto_suspend = 180
                                        auto_resume = true
                                        initially_suspended=true;
                                        
-LOAD DATA FROM FILE			--> put file:///Users/kqkk509/Downloads/getting-started/employees0*.csv @sf_tuts.public.%emp_basic;
+LOAD DATA FROM FILE			    --> put file:///Users/kqkk509/Downloads/getting-started/employees0*.csv @sf_tuts.public.%emp_basic;
 
-VIEW STAGED FILES LIST		--> list @sf_tuts.public.%emp_basic;
+VIEW STAGED FILES LIST		  --> list @sf_tuts.public.%emp_basic;
 
 COPY DATA INTO TARGET TABLE	--> copy into emp_basic
                                    from @%emp_basic
@@ -54,19 +54,19 @@ COPY DATA INTO TARGET TABLE	--> copy into emp_basic
                                    pattern = '.*employees0[1-5].csv.gz'
                                    on_error = 'skip_file';
                                    
-QUERY DATABASE TABLE		--> select * from emp_basic;
+QUERY DATABASE TABLE		    --> select * from emp_basic;
 
-INSERT ADDITIONAL ROWS		--> insert into emp_basic values
+INSERT ADDITIONAL ROWS		  --> insert into emp_basic values
                                    ('Clementine','Adamou','cadamou@sf_tuts.com','10510 Sachs Road','Klenak','2017-9-22') ,
                                    ('Marlowe','De Anesy','madamouc@sf_tuts.co.uk','36768 Northfield Plaza','Fangshan','2017-1-26');
                                    
-QUERY EXAMPLES				--> select email from emp_basic where email like '%.uk';
+QUERY EXAMPLES				      --> select email from emp_basic where email like '%.uk';
 
-DROP DATABASE				--> drop database if exists sf_tuts;
+DROP DATABASE				        --> drop database if exists sf_tuts;
 
-DROP WAREHOUSE				--> drop warehouse if exists sf_tuts_wh;
+DROP WAREHOUSE				      --> drop warehouse if exists sf_tuts_wh;
 
-EXIT THE CONNECTION			--> !exit
+EXIT THE CONNECTION			    --> !exit
 ```
 
 ## SNOWFLAKES PYTHON COMMANDS
