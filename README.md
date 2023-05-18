@@ -27,7 +27,7 @@ To test if the download worked correctrly, type snowsql -v
 Below are the steps to login to snowsql terminal and execute the commands
 
 ```bash
-LOGIN 						--> snowsql -a "GITYONJ-FZ10313" -o log_level=DEBUG -u ARUNAZ # When prompt for password type "A_b@150695"
+LOGIN 						--> snowsql -a <account_name> -o log_level=DEBUG -u <username> # When prompt for password type <password>
 CREATE DATABASE 			--> create or replace database sf_tuts;
 SELECT DATABASE				--> select current_database(), current_schema();
 CREATE TABLE				--> create or replace table emp_basic (
